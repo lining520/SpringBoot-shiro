@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.shaoming.comm.utils.StringUtil;
 
 import com.shaoming.comm.utils.code.Captcha;
-import com.shaoming.comm.utils.code.GifCaptcha;
 import com.shaoming.comm.utils.code.SpecCaptcha;
 import com.shaoming.comm.vm.PageVM;
 import com.shaoming.comm.vm.ResultVM;
@@ -22,9 +21,7 @@ import com.shaoming.sys.vo.SysUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -40,7 +37,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -116,8 +112,12 @@ public class SysUserController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setContentType("image/gif");
+        //String path = this.getClass().getClassLoader().getResource("/").getPath();
         String code="";
-        File file = new File("D:/源码/static/assets/images/code.png");
+
+         //String path = SysUserController.class.getResource("/").getPath();
+        System.out.println(System.getProperty("user.dir"));
+        File file = new File(System.getProperty("user.dir")+ "/src/main/java/static/assets/images/code.png");//验证码路径
         try {
             if(file.exists() || file.isFile()) {
                 file.delete();
