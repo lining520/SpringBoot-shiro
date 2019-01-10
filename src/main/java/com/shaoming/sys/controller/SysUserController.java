@@ -3,6 +3,7 @@ package com.shaoming.sys.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.shaoming.comm.utils.Base64ImgUtil;
 import com.shaoming.comm.utils.StringUtil;
 
 import com.shaoming.comm.utils.code.Captcha;
@@ -102,9 +103,42 @@ public class SysUserController {
     @GetMapping("/userInfo")
     public ResultVM userInfo(){
         SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        if(null!=user.getHeadIcon()) {
+            if (StringUtils.isEmpty(Base64ImgUtil.GetImageStr(user.getHeadIcon()))){
+                user.setHeadIcon(Base64ImgUtil.GetImageStr(System.getProperty("user.dir")+ "/src/main/java/static/assets/headIcon/404.png"));
+            }else {
+                user.setHeadIcon(Base64ImgUtil.GetImageStr(user.getHeadIcon()));
+            }
+        }
         return ResultVM.ok(user);
     }
 
+    /**
+     * 查看当前用户权限信息
+     */
+    @RequiresPermissions({"power_user"})
+    @GetMapping("/userInfoRole")
+    public ResultVM userInfoRole(){
+        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        if (StringUtils.isEmpty(user)) return ResultVM.error("加载超时请刷新重试！");
+        if(null!=user.getHeadIcon()) {
+            if (StringUtils.isEmpty(Base64ImgUtil.GetImageStr(user.getHeadIcon()))){
+                user.setHeadIcon(Base64ImgUtil.GetImageStr(System.getProperty("user.dir")+ "/src/main/java/static/assets/headIcon/404.png"));
+            }else {
+                user.setHeadIcon(Base64ImgUtil.GetImageStr(user.getHeadIcon()));
+            }
+        }
+        List<SysUserRole> userRoles = sysUserRoleService.selectList(new EntityWrapper<SysUserRole>().where("user_id={0}", user.getId()));
+        // 获取所有角色
+        List<SysRole> roles = sysRoleService.selectList(new EntityWrapper<SysRole>().where("tb_status != '删除'","id={0}",userRoles.get(0).getRoleId()));
+        if (roles == null || roles.size() == 0)
+            return ResultVM.ok();
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("user",user);
+        map.put("role",roles.get(0));
+        return ResultVM.ok(map);
+    }
     @GetMapping("/code")
     @ResponseBody
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -482,8 +516,6 @@ public class SysUserController {
             log.info(e.getMessage(),e);
            return ResultVM.error("系统错误！");
         }
-
-
     }
     public static void main(String[] args) {
         String hashAlgorithmName = "MD5";//加密方式

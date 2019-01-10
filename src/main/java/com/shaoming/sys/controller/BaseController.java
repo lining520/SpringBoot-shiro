@@ -1,7 +1,8 @@
 package com.shaoming.sys.controller;
 
 import com.shaoming.sys.model.SysUser;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -9,7 +10,7 @@ import com.shaoming.sys.model.SysUser;
  * Created by wangfan on 2018-02-22 上午 11:29.
  */
 public class BaseController {
-
+    public static final Logger log = LoggerFactory.getLogger(BaseController.class);
     /**
      * 获取当前登录的user
      */

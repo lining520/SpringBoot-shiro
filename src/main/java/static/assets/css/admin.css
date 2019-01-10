@@ -519,3 +519,8 @@ html {
     font-size: 30px;
     color: #c2c2c2
 }
+.layerImg{
+    position: relative;
+    left: 67px;
+    z-index: 99;
+}

@@ -60,10 +60,11 @@ layui.define(['config', 'admin', 'layer'], function (exports) {
                 success: function (data) {
                     layer.closeAll('loading');
                     if (200 == data.code) {
+
                         config.putUser(data);
                         success(data);
                     } else {
-                       // alert(JSON.stringify(data));
+
                         layer.msg('获取用户失败', {icon: 2});
                     }
                 },
@@ -115,6 +116,8 @@ layui.define(['config', 'admin', 'layer'], function (exports) {
             });
             // 个人信息
             $('#setInfo').click(function () {
+                admin.loadView('components/tpl/user_info.html');
+              //components/tpl/user_info.html
 
             });
             // 消息

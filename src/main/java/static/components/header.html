@@ -19,7 +19,8 @@
     </li>
     <li class="layui-nav-item" lay-unselect>
         <a>
-            <img src="assets/images/head.png" class="layui-nav-img">
+            <img p-bind="src:data:image/png;base64,{{result.headIcon}}" class="layui-nav-img">
+            <!--<img src="D:\源码\Shiro-Demo-master\src\main\java\static\assets\headIcon\13229763707.jpg" class="layui-nav-img">-->
             <cite>{{result.userName}}</cite>
         </a>
         <dl class="layui-nav-child">
@@ -38,4 +39,7 @@
     <li class="layui-nav-item" lay-unselect>
         <a ew-event="theme" title="主题"><i class="layui-icon layui-icon-more-vertical"></i></a>
     </li>
+    <script>
+
+    </script>
 </ul>
