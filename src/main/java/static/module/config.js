@@ -63,9 +63,8 @@ layui.define(function (exports) {
             icon: 'layui-icon-set',
             subMenus: [{
                 name: '网络设置',
-                url: 'user',  // 这里url不能带斜杠，因为是用递归循环进行关键字注册，带斜杠会被q.js理解为其他注册模式
+                url: 'website',  // 这里url不能带斜杠，因为是用递归循环进行关键字注册，带斜杠会被q.js理解为其他注册模式
                 path: 'system/website.html',
-                auth: 'post:/user/query'
 
             }]
         }],

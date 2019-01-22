@@ -464,9 +464,10 @@ public class SysUserController {
         return ResultVM.ok(voList);
     }
 
-    /**
-     * 修改用户状态
-     * @param user
+    /**(
+     *  修改用户状态
+     * @param id
+     * @param tbStatus
      * @return
      */
     //@RequestMapping
@@ -517,6 +518,26 @@ public class SysUserController {
            return ResultVM.error("系统错误！");
         }
     }
+
+    /**
+     * 修改个人信息
+     * @param sysUser
+     * @return
+     */
+    @RequiresPermissions({"power_user"})
+    @PostMapping("/editUserInfo")
+    public ResultVM editUserInfo(SysUser sysUser,PrincipalCollection principalCollection){
+        try {
+            //SysUser user = (SysUser) principalCollection.getPrimaryPrincipal();
+            boolean bool = sysUserService.insertOrUpdate(sysUser);
+            return bool ? ResultVM.ok("操作成功！") : ResultVM.error("系统错误！");
+        }catch (Exception e){
+            log.info(e.getMessage(),e);
+        }
+       return  ResultVM.error("系统错误！");
+       // return null;
+    }
+
     public static void main(String[] args) {
         String hashAlgorithmName = "MD5";//加密方式
         String password = "123456";//密码原值
